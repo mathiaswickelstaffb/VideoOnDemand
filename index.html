@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -166,7 +165,7 @@
 
         .card-thumbnail {
             height: 170px;
-            background-color: #000;
+            background-color: #eee;
             background-size: cover;
             background-position: center;
             position: relative;
@@ -340,16 +339,17 @@
                 <div class="header-icon">3Q</div>
                 <h1 class="header-title">Video Library</h1>
             </div>
-            <div class="header-subtitle">On-Demand Archive & Trainings</div>
+            <div class="header-subtitle">On-Demand Archiv & Trainings</div>
             
             <div class="header-stats">
                 <div class="stat-item">
+                    <!-- Die Zahl wird per JS auf einen höheren Wert gesetzt -->
                     <span id="statTotal" class="stat-value">0</span>
                     <span class="stat-label">Videos</span>
                 </div>
                 <div class="stat-item">
                     <span id="statCats" class="stat-value">0</span>
-                    <span class="stat-label">Categories</span>
+                    <span class="stat-label">Kategorien</span>
                 </div>
             </div>
             <div class="header-accent-line"></div>
@@ -368,7 +368,7 @@
             <div id="detailView" class="hidden detail-wrapper">
                 <button class="back-btn" onclick="VODApp.showList()">
                     <svg style="width:20px; margin-right:8px" viewBox="0 0 24 24"><path fill="currentColor" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
-                    Back to Library
+                    Zurück zur Übersicht
                 </button>
                 
                 <div class="player-frame">
@@ -389,7 +389,7 @@
                             <svg class="control-icon" style="margin:0" viewBox="0 0 24 24"><path d="M7,14H5v5h5v-2H7V14M5,10h2V7h3V5H5V10M17,17h-3v2h5v-5h-2V17M14,5v2h3v3h2V5H14Z" /></svg>
                         </div>
                     </div>
-                    <!-- Hidden real iframe that will be populated on demand -->
+                    <!-- Realer Player-Iframe -->
                     <iframe id="videoIframe" class="video-iframe hidden" src="" allowfullscreen></iframe>
                 </div>
 
@@ -411,16 +411,16 @@
                 id: 1,
                 title: "Annual Strategy Update 2024",
                 date: "2024-02-15T10:00:00Z",
-                description: "Our board members present the global strategy for the upcoming fiscal year, focusing on sustainability and digital transformation in manufacturing.",
+                description: "Unsere Vorstandsmitglieder präsentieren die globale Strategie für das kommende Geschäftsjahr mit Fokus auf Nachhaltigkeit und digitale Transformation.",
                 tag: "Townhall",
-                imageUrl: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=800&q=80",
+                imageUrl: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
                 embedUrl: "https://playout.3qsdn.com/embed/6987f465-1d42-11ef-93a9-002590c750be"
             },
             {
                 id: 2,
                 title: "Cyber Security: Phishing Awareness",
                 date: "2024-02-10T14:30:00Z",
-                description: "Learn how to identify sophisticated phishing attempts and protect our corporate network. This training is mandatory for all office employees.",
+                description: "Lernen Sie, wie Sie raffinierte Phishing-Versuche erkennen und unser Firmennetzwerk schützen. Pflichtschulung für alle IT-Nutzer.",
                 tag: "Training",
                 imageUrl: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80",
                 embedUrl: "https://playout.3qsdn.com/embed/6987f465-1d42-11ef-93a9-002590c750be"
@@ -429,36 +429,36 @@
                 id: 3,
                 title: "New HR Benefits & Healthcare",
                 date: "2024-01-28T09:00:00Z",
-                description: "A summary of the updated healthcare packages and the new flexible working hours policy effective from next month.",
+                description: "Eine Zusammenfassung der aktualisierten Gesundheitspakete und der neuen Richtlinie für flexible Arbeitszeiten.",
                 tag: "HR",
-                imageUrl: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80",
+                imageUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
                 embedUrl: "https://playout.3qsdn.com/embed/6987f465-1d42-11ef-93a9-002590c750be"
             },
             {
                 id: 4,
-                title: "Innovation Lab: Hydrogen Projects",
+                title: "Innovation Lab: Green Hydrogen",
                 date: "2024-01-15T11:00:00Z",
-                description: "Direct insights from our research team in Berlin regarding the latest breakthroughs in green hydrogen storage solutions.",
+                description: "Direkte Einblicke unseres Forschungsteams in Berlin zu den neuesten Durchbrüchen bei grünen Wasserstoff-Speicherlösungen.",
                 tag: "Innovation",
-                imageUrl: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=800&q=80",
+                imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
                 embedUrl: "https://playout.3qsdn.com/embed/6987f465-1d42-11ef-93a9-002590c750be"
             },
             {
                 id: 5,
                 title: "Diversity & Inclusion Workshop",
                 date: "2024-02-05T15:00:00Z",
-                description: "Highlighting our commitment to a diverse workplace and presenting the results of last year's inclusion survey.",
+                description: "Unser Engagement für einen vielfältigen Arbeitsplatz und die Präsentation der Ergebnisse der letzten Kulturumfrage.",
                 tag: "HR",
-                imageUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
+                imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80",
                 embedUrl: "https://playout.3qsdn.com/embed/6987f465-1d42-11ef-93a9-002590c750be"
             },
             {
                 id: 6,
-                title: "Sales Kick-off: Region EMEA",
+                title: "Sales Kick-off: Excellence 2024",
                 date: "2024-01-10T13:00:00Z",
-                description: "Setting targets for the EMEA sales teams and introducing the new CRM integration features.",
+                description: "Zielsetzung für die Vertriebsteams und Einführung der neuen CRM-Integrationsfunktionen für den Kundenerfolg.",
                 tag: "Sales",
-                imageUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80",
+                imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
                 embedUrl: "https://playout.3qsdn.com/embed/6987f465-1d42-11ef-93a9-002590c750be"
             }
         ];
@@ -474,7 +474,10 @@
             },
 
             updateStats() {
-                document.getElementById('statTotal').innerText = this.videos.length;
+                // Setze die Anzahl der Videos künstlich höher, wie gewünscht
+                // Hier werden z.B. 142 statt nur der 6 Mock-Videos angezeigt
+                document.getElementById('statTotal').innerText = "142"; 
+                
                 const uniqueTags = [...new Set(this.videos.map(v => v.tag))];
                 document.getElementById('statCats').innerText = uniqueTags.length;
             },
@@ -511,7 +514,7 @@
                             <p class="event-desc">${v.description}</p>
                         </div>
                         <div class="card-footer">
-                            <span class="open-btn">Watch Video →</span>
+                            <span class="open-btn">Video ansehen →</span>
                         </div>
                     </div>
                 `).join('');
@@ -528,20 +531,13 @@
 
                 document.getElementById('detailTitle').innerText = video.title;
                 document.getElementById('detailTag').innerText = video.tag;
-                document.getElementById('detailDate').innerText = "Published: " + this.formatDate(video.date, true);
+                document.getElementById('detailDate').innerText = "Veröffentlicht am: " + this.formatDate(video.date, true);
                 document.getElementById('detailDesc').innerText = video.description;
                 
-                // Player Mockup Setup
                 document.getElementById('playerBg').style.backgroundImage = `url('${video.imageUrl}')`;
                 const titleParts = video.title.split(' ');
                 document.getElementById('playerBrand').innerText = titleParts[0].toUpperCase();
                 document.getElementById('playerSub').innerText = titleParts.slice(1).join(' ') || "Corporate Video";
-
-                // In einer echten App würde man hier den Iframe laden:
-                // const iframe = document.getElementById('videoIframe');
-                // iframe.src = video.embedUrl;
-                // iframe.classList.remove('hidden');
-                // document.getElementById('playerMockup').classList.add('hidden');
 
                 window.scrollTo(0,0);
             },
