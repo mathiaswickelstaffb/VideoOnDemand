@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3Q Video on Demand - Siemens Style</title>
+    <title>Siemens VOD Library</title>
     <style>
+        /* --- CSS STYLING (Siemens Branding) --- */
         :root {
             /* Siemens Brand Colors */
             --siemens-blue: #00183B;
@@ -29,40 +30,42 @@
             box-sizing: border-box;
         }
 
+        /* Hilfsklassen */
         .hidden { display: none !important; }
 
         /* --- WIDGET HEADER --- */
         .widget-header {
             background-color: var(--sb-primary);
             color: var(--siemens-white);
-            padding: 24px 24px 0 24px;
+            padding: 32px 24px 0 24px;
             margin-bottom: 24px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .header-top {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 4px;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+            gap: 16px;
         }
-
+        
         .header-icon {
             background-color: var(--sb-accent);
             color: var(--sb-primary);
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 4px;
-            font-weight: 800;
+            font-weight: bold;
             font-size: 1.1rem;
         }
 
         .header-title {
-            font-size: 1.4rem;
-            font-weight: 700;
+            font-size: 1.25rem;
+            font-weight: 600;
             margin: 0;
             letter-spacing: 0.5px;
         }
@@ -70,80 +73,71 @@
         .header-subtitle {
             font-size: 0.9rem;
             color: rgba(255,255,255,0.7);
-            margin-bottom: 24px;
-            margin-left: 48px;
-        }
-
-        .header-stats {
-            display: flex;
-            gap: 48px;
-            padding-bottom: 24px;
-            margin-left: 48px;
-        }
-
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stat-value {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--sb-accent);
-        }
-
-        .stat-label {
-            font-size: 0.7rem;
-            color: rgba(255,255,255,0.8);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            display: block;
             margin-top: 2px;
         }
-
-        .header-accent-line {
-            height: 4px;
-            background: linear-gradient(90deg, var(--sb-accent) 30%, transparent 30%);
-            width: 100%;
-        }
-
-        /* --- FILTER BAR --- */
-        .filter-container {
+        
+        /* --- TABS / FILTER --- */
+        .filter-bar {
             display: flex;
-            gap: 10px;
-            padding: 0 24px;
-            margin-bottom: 20px;
+            gap: 28px;
+            margin-top: 24px;
             overflow-x: auto;
             scrollbar-width: none;
         }
-        .filter-container::-webkit-scrollbar { display: none; }
-
-        .filter-btn {
-            background: white;
-            border: 1px solid #ddd;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+        .filter-bar::-webkit-scrollbar { display: none; }
+        
+        .filter-tab {
+            color: rgba(255,255,255,0.6);
             font-weight: 600;
+            font-size: 0.95rem;
+            padding-bottom: 12px;
             cursor: pointer;
+            position: relative;
+            transition: color 0.2s;
             white-space: nowrap;
-            transition: all 0.2s;
-            color: var(--sb-primary);
         }
-        .filter-btn.active {
-            background: var(--sb-primary);
+        
+        .filter-tab:hover { color: white; }
+        
+        .filter-tab.active {
             color: white;
-            border-color: var(--sb-primary);
+        }
+        
+        .filter-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            background-color: var(--sb-accent);
+            border-radius: 3px 3px 0 0;
         }
 
         /* --- CONTENT CONTAINER --- */
         .content-container {
-            padding: 0 24px 40px 24px;
+            padding: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .event-grid {
+        /* --- VIDEO LIST GRID --- */
+        .event-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: 1fr;
             gap: 24px;
+        }
+
+        /* Desktop: 3 Spalten (für 2 Reihen à 3 Videos) */
+        @media (min-width: 992px) {
+            .event-list {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 640px) and (max-width: 991px) {
+            .event-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         .event-card {
@@ -155,16 +149,17 @@
             transition: transform 0.2s, box-shadow 0.2s;
             display: flex;
             flex-direction: column;
+            height: 100%;
             border: 1px solid rgba(0,24,59,0.05);
         }
 
         .event-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0,24,59,0.15);
+            box-shadow: 0 12px 24px rgba(0,24,59,0.12);
         }
 
         .card-thumbnail {
-            height: 170px;
+            height: 180px;
             background-color: #eee;
             background-size: cover;
             background-position: center;
@@ -186,7 +181,7 @@
         }
 
         .card-content {
-            padding: 18px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
@@ -194,7 +189,7 @@
 
         .event-date {
             font-size: 0.75rem;
-            color: #777;
+            color: #64748b;
             margin-bottom: 6px;
             font-weight: 600;
             text-transform: uppercase;
@@ -209,9 +204,10 @@
         }
 
         .event-desc {
-            font-size: 0.85rem;
-            color: #555;
+            font-size: 0.9rem;
+            color: #475569;
             line-height: 1.5;
+            flex-grow: 1;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -219,187 +215,155 @@
         }
         
         .card-footer {
-            padding: 12px 18px;
-            border-top: 1px solid #f0f0f0;
+            padding: 12px 16px;
+            border-top: 1px solid #f1f5f9;
             background-color: #fafafa;
             display: flex;
             justify-content: flex-end;
+            align-items: center;
         }
         
         .open-btn {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 700;
             color: var(--sb-primary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        /* --- DETAIL VIEW --- */
+        /* --- DETAIL ANSICHT --- */
         .detail-wrapper {
             padding: 24px;
-            max-width: 1100px;
+            max-width: 1000px;
             margin: 0 auto;
         }
         
-        .back-btn {
-            background: none;
-            border: none;
-            color: var(--sb-primary);
-            font-weight: 700;
-            cursor: pointer;
-            padding: 0;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            font-size: 1rem;
-        }
-
-        /* Custom Player Container */
-        .player-frame {
+        .custom-player-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
             background-color: #000;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            margin-bottom: 30px;
+            margin-bottom: 32px;
         }
 
         .player-mockup {
             position: absolute;
-            top:0; left:0; width:100%; height:100%;
-            display: flex;
-            flex-direction: column;
-            z-index: 5;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
         }
 
-        .player-overlay-text {
+        .player-gradient {
             position: absolute;
-            bottom: 80px;
-            left: 30px;
-            color: white;
-            z-index: 10;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent 40%, rgba(0,9,30,0.95) 100%);
         }
-        .player-brand { font-size: 1.5rem; font-weight: 800; display: block; }
-        .player-sub { font-size: 1.5rem; font-weight: 300; opacity: 0.8; }
+
+        .player-logo-box {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            width: 44px;
+            height: 44px;
+            background-color: var(--siemens-cyan);
+            color: var(--siemens-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.6rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
 
         .player-controls {
             position: absolute;
-            bottom: 24px;
-            left: 24px;
-            right: 24px;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
             height: 52px;
             background-color: rgba(0, 9, 30, 0.9);
             display: flex;
             align-items: center;
-            padding: 0 20px;
+            padding: 0 16px;
             border-radius: 6px;
             z-index: 10;
         }
 
-        .control-icon { margin-right: 20px; cursor: pointer; fill: white; width: 22px; }
-        .control-icon:hover { fill: var(--sb-accent); }
+        .control-btn { background: none; border: none; cursor: pointer; display: flex; align-items: center; margin-right: 16px; }
+        .control-btn svg { fill: white; width: 22px; }
+        .control-btn:hover svg { fill: var(--siemens-cyan); }
 
-        .progress-bar {
+        .progress-track {
             flex-grow: 1;
             height: 4px;
-            background: rgba(255,255,255,0.2);
-            margin: 0 20px;
+            background-color: rgba(255,255,255,0.2);
             border-radius: 2px;
-            position: relative;
+            margin: 0 16px;
         }
-        .progress-active { width: 40%; height:100%; background: var(--sb-accent); border-radius: 2px; }
+        .progress-fill { width: 45%; height: 100%; background-color: var(--siemens-cyan); border-radius: 2px; }
 
-        .video-iframe {
-            position: absolute;
-            top:0; left:0; width:100%; height:100%;
-            border: none;
-            z-index: 1;
-        }
+        .back-btn { background: none; border: none; color: var(--sb-primary); font-weight: 700; cursor: pointer; padding: 0; margin-bottom: 20px; display: flex; align-items: center; font-size: 1rem; }
 
-        .detail-info {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
-        .detail-title { margin: 0 0 10px 0; font-size: 1.8rem; color: var(--sb-primary); }
-        .detail-meta { color: #666; font-size: 0.95rem; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #eee; display: flex; gap: 15px; }
-
+        .loader { text-align: center; padding: 60px; color: var(--sb-primary); opacity: 0.7; font-size: 1.1rem;}
+        
     </style>
 </head>
 <body>
 
     <div id="app">
-        <!-- HEADER -->
-        <header id="mainHeader" class="widget-header">
+        
+        <!-- WIDGET HEADER -->
+        <div id="mainHeader" class="widget-header">
             <div class="header-top">
                 <div class="header-icon">3Q</div>
-                <h1 class="header-title">Video Library</h1>
+                <div>
+                    <div class="header-title">Media On Demand</div>
+                    <span class="header-subtitle">Archivierte Aufzeichnungen & Lerninhalte</span>
+                </div>
             </div>
-            <div class="header-subtitle">On-Demand Archiv & Trainings</div>
             
-            <div class="header-stats">
-                <div class="stat-item">
-                    <!-- Die Zahl wird per JS auf einen höheren Wert gesetzt -->
-                    <span id="statTotal" class="stat-value">0</span>
-                    <span class="stat-label">Videos</span>
-                </div>
-                <div class="stat-item">
-                    <span id="statCats" class="stat-value">0</span>
-                    <span class="stat-label">Kategorien</span>
-                </div>
+            <!-- Filter Tabs -->
+            <div id="filterBar" class="filter-bar">
+                <!-- Werden dynamisch geladen -->
             </div>
-            <div class="header-accent-line"></div>
-        </header>
+        </div>
 
-        <!-- FILTERS -->
-        <div id="filterBar" class="filter-container"></div>
-
-        <!-- MAIN CONTENT -->
         <div class="content-container">
-            <div id="listView">
-                <div id="gridContainer" class="event-grid"></div>
+            <div id="loader" class="loader">Inhalte werden geladen...</div>
+
+            <!-- Video Grid -->
+            <div id="listView" class="hidden">
+                <div id="gridContainer" class="event-list"></div>
+                <div id="noEventsMessage" class="hidden" style="text-align:center; opacity: 0.6; padding: 40px;">Keine Videos gefunden.</div>
             </div>
 
-            <!-- DETAIL VIEW -->
+            <!-- Detailansicht -->
             <div id="detailView" class="hidden detail-wrapper">
                 <button class="back-btn" onclick="VODApp.showList()">
                     <svg style="width:20px; margin-right:8px" viewBox="0 0 24 24"><path fill="currentColor" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
                     Zurück zur Übersicht
                 </button>
                 
-                <div class="player-frame">
-                    <div id="playerMockup" class="player-mockup">
-                        <div id="playerBg" style="position:absolute; top:0; left:0; width:100%; height:100%; background-size:cover; background-position:center;"></div>
-                        <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(to bottom, transparent 40%, rgba(0,24,59,0.9) 100%)"></div>
-                        
-                        <div class="player-overlay-text">
-                            <span class="player-brand" id="playerBrand">SIEMENS</span>
-                            <span class="player-sub" id="playerSub">Digital Industries</span>
-                        </div>
-
+                <div class="custom-player-container">
+                    <div class="player-mockup" id="playerBg">
+                        <div class="player-gradient"></div>
+                        <div class="player-logo-box">S</div>
                         <div class="player-controls">
-                            <svg class="control-icon" viewBox="0 0 24 24"><path d="M8,5.14V19.14L19,12.14L8,5.14Z" /></svg>
-                            <svg class="control-icon" viewBox="0 0 24 24"><path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.85 14,18.71V20.77C18.01,19.86 21,16.28 21,12C21,7.72 18.01,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16.02C15.5,15.29 16.5,13.77 16.5,12M3,9V15H7L12,20V4L7,9H3Z" /></svg>
-                            <div class="progress-bar"><div class="progress-active"></div></div>
-                            <div style="color:white; font-size:0.85rem; margin-right:15px">12:45</div>
-                            <svg class="control-icon" style="margin:0" viewBox="0 0 24 24"><path d="M7,14H5v5h5v-2H7V14M5,10h2V7h3V5H5V10M17,17h-3v2h5v-5h-2V17M14,5v2h3v3h2V5H14Z" /></svg>
+                            <button class="control-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+                            <div class="progress-track"><div class="progress-fill"></div></div>
+                            <div style="color:white; font-size:0.8rem; margin-right:10px">14:20</div>
+                            <button class="control-btn" style="margin:0"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
                         </div>
                     </div>
-                    <!-- Realer Player-Iframe -->
-                    <iframe id="videoIframe" class="video-iframe hidden" src="" allowfullscreen></iframe>
                 </div>
 
-                <div class="detail-info">
-                    <h2 id="detailTitle" class="detail-title"></h2>
-                    <div class="detail-meta">
-                        <span id="detailTag" style="color:var(--sb-primary); font-weight:700"></span>
-                        <span id="detailDate"></span>
-                    </div>
-                    <p id="detailDesc" style="line-height: 1.7; color: #444; font-size: 1.05rem;"></p>
+                <div class="detail-info" style="background:white; padding:32px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.05)">
+                    <h2 id="detailTitle" style="margin:0 0 8px 0; color:var(--sb-primary); font-size:1.8rem"></h2>
+                    <div id="detailMeta" style="color:#64748b; font-size:0.95rem; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid #eee"></div>
+                    <p id="detailDesc" style="line-height:1.7; color:#334155; font-size:1.05rem;"></p>
                 </div>
             </div>
         </div>
@@ -409,153 +373,136 @@
         const MOCK_DATA = [
             {
                 id: 1,
-                title: "Annual Strategy Update 2024",
-                date: "2024-02-15T10:00:00Z",
-                description: "Unsere Vorstandsmitglieder präsentieren die globale Strategie für das kommende Geschäftsjahr mit Fokus auf Nachhaltigkeit und digitale Transformation.",
-                tag: "Townhall",
-                imageUrl: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
-                embedUrl: "https://playout.3qsdn.com/embed/6987f465-1d42-11ef-93a9-002590c750be"
+                title: "Strategie-Update 2024",
+                date: "2024-02-10",
+                description: "Der Vorstand erläutert die strategische Ausrichtung für das kommende Geschäftsjahr und die Fokusbereiche der Digitalisierung.",
+                tag: "Strategie",
+                imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80"
             },
             {
                 id: 2,
-                title: "Cyber Security: Phishing Awareness",
-                date: "2024-02-10T14:30:00Z",
-                description: "Lernen Sie, wie Sie raffinierte Phishing-Versuche erkennen und unser Firmennetzwerk schützen. Pflichtschulung für alle IT-Nutzer.",
+                title: "Cyber Security Training",
+                date: "2024-01-25",
+                description: "Wichtige Verhaltensregeln zum Schutz unserer digitalen Infrastruktur gegen moderne Phishing-Angriffe.",
                 tag: "Training",
-                imageUrl: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80",
-                embedUrl: "https://playout.3qsdn.com/embed/6987f465-1d42-11ef-93a9-002590c750be"
+                imageUrl: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80"
             },
             {
                 id: 3,
-                title: "New HR Benefits & Healthcare",
-                date: "2024-01-28T09:00:00Z",
-                description: "Eine Zusammenfassung der aktualisierten Gesundheitspakete und der neuen Richtlinie für flexible Arbeitszeiten.",
-                tag: "HR",
-                imageUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
-                embedUrl: "https://playout.3qsdn.com/embed/6987f465-1d42-11ef-93a9-002590c750be"
+                title: "HR Benefits & Altersvorsorge",
+                date: "2024-02-05",
+                description: "Vorstellung der neuen arbeitgeberfinanzierten Leistungen und Tipps zur optimalen Vorsorgeplanung.",
+                tag: "Personal",
+                imageUrl: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80"
             },
             {
                 id: 4,
-                title: "Innovation Lab: Green Hydrogen",
-                date: "2024-01-15T11:00:00Z",
-                description: "Direkte Einblicke unseres Forschungsteams in Berlin zu den neuesten Durchbrüchen bei grünen Wasserstoff-Speicherlösungen.",
-                tag: "Innovation",
-                imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
-                embedUrl: "https://playout.3qsdn.com/embed/6987f465-1d42-11ef-93a9-002590c750be"
+                title: "Innovation: Green Hydrogen",
+                date: "2024-01-12",
+                description: "Einblicke in unsere neuesten Projekte im Bereich Wasserstofftechnologie und nachhaltige Energiespeicher.",
+                tag: "Technik",
+                imageUrl: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80"
             },
             {
                 id: 5,
-                title: "Diversity & Inclusion Workshop",
-                date: "2024-02-05T15:00:00Z",
-                description: "Unser Engagement für einen vielfältigen Arbeitsplatz und die Präsentation der Ergebnisse der letzten Kulturumfrage.",
-                tag: "HR",
-                imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80",
-                embedUrl: "https://playout.3qsdn.com/embed/6987f465-1d42-11ef-93a9-002590c750be"
+                title: "Diversity Workshop Highlights",
+                date: "2023-12-15",
+                description: "Zusammenfassung der wichtigsten Erkenntnisse aus unserer globalen Inclusion-Woche.",
+                tag: "Kultur",
+                imageUrl: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80"
             },
             {
                 id: 6,
-                title: "Sales Kick-off: Excellence 2024",
-                date: "2024-01-10T13:00:00Z",
-                description: "Zielsetzung für die Vertriebsteams und Einführung der neuen CRM-Integrationsfunktionen für den Kundenerfolg.",
-                tag: "Sales",
-                imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
-                embedUrl: "https://playout.3qsdn.com/embed/6987f465-1d42-11ef-93a9-002590c750be"
+                title: "Sales Excellence Webinar",
+                date: "2023-11-30",
+                description: "Optimierung des Kundenkontakts durch datengestützte Analyse-Tools und neue CRM-Features.",
+                tag: "Vertrieb",
+                imageUrl: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=800&q=80"
             }
         ];
 
         const VODApp = {
-            activeFilter: 'All',
+            activeFilter: 'Alle',
             videos: MOCK_DATA,
 
             init() {
                 this.renderFilters();
                 this.renderGrid();
-                this.updateStats();
-            },
-
-            updateStats() {
-                // Setze die Anzahl der Videos künstlich höher, wie gewünscht
-                // Hier werden z.B. 142 statt nur der 6 Mock-Videos angezeigt
-                document.getElementById('statTotal').innerText = "142"; 
-                
-                const uniqueTags = [...new Set(this.videos.map(v => v.tag))];
-                document.getElementById('statCats').innerText = uniqueTags.length;
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('listView').classList.remove('hidden');
             },
 
             renderFilters() {
                 const container = document.getElementById('filterBar');
-                const tags = ['All', ...new Set(this.videos.map(v => v.tag))];
-                container.innerHTML = tags.map(tag => `
-                    <button class="filter-btn ${tag === this.activeFilter ? 'active' : ''}" 
-                            onclick="VODApp.setFilter('${tag}')">${tag}</button>
+                const categories = ['Alle', ...new Set(this.videos.map(v => v.tag))];
+                container.innerHTML = categories.map(cat => `
+                    <div class="filter-tab ${cat === this.activeFilter ? 'active' : ''}" 
+                         onclick="VODApp.setFilter('${cat}', this)">${cat}</div>
                 `).join('');
             },
 
-            setFilter(tag) {
-                this.activeFilter = tag;
-                this.renderFilters();
+            setFilter(category, el) {
+                this.activeFilter = category;
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                el.classList.add('active');
                 this.renderGrid();
             },
 
             renderGrid() {
                 const container = document.getElementById('gridContainer');
-                const filtered = this.activeFilter === 'All' 
+                const filtered = this.activeFilter === 'Alle' 
                     ? this.videos 
                     : this.videos.filter(v => v.tag === this.activeFilter);
 
-                container.innerHTML = filtered.map(v => `
-                    <div class="event-card" onclick="VODApp.showDetail(${v.id})">
-                        <div class="card-thumbnail" style="background-image: url('${v.imageUrl}')">
-                            <span class="tag-badge">${v.tag}</span>
+                if (filtered.length === 0) {
+                    container.innerHTML = '';
+                    document.getElementById('noEventsMessage').classList.remove('hidden');
+                } else {
+                    document.getElementById('noEventsMessage').classList.add('hidden');
+                    container.innerHTML = filtered.map(v => `
+                        <div class="event-card" onclick="VODApp.showDetail(${v.id})">
+                            <div class="card-thumbnail" style="background-image: url('${v.imageUrl}')">
+                                <span class="tag-badge">${v.tag}</span>
+                            </div>
+                            <div class="card-content">
+                                <span class="event-date">${this.formatDate(v.date)}</span>
+                                <h3 class="event-title">${v.title}</h3>
+                                <p class="event-desc">${v.description}</p>
+                            </div>
+                            <div class="card-footer">
+                                <span class="open-btn">Abrufen →</span>
+                            </div>
                         </div>
-                        <div class="card-content">
-                            <span class="event-date">${this.formatDate(v.date)}</span>
-                            <h3 class="event-title">${v.title}</h3>
-                            <p class="event-desc">${v.description}</p>
-                        </div>
-                        <div class="card-footer">
-                            <span class="open-btn">Video ansehen →</span>
-                        </div>
-                    </div>
-                `).join('');
+                    `).join('');
+                }
             },
 
             showDetail(id) {
                 const video = this.videos.find(v => v.id === id);
                 if (!video) return;
 
-                document.getElementById('listView').classList.add('hidden');
-                document.getElementById('filterBar').classList.add('hidden');
                 document.getElementById('mainHeader').classList.add('hidden');
+                document.getElementById('listView').classList.add('hidden');
                 document.getElementById('detailView').classList.remove('hidden');
 
                 document.getElementById('detailTitle').innerText = video.title;
-                document.getElementById('detailTag').innerText = video.tag;
-                document.getElementById('detailDate').innerText = "Veröffentlicht am: " + this.formatDate(video.date, true);
+                document.getElementById('detailMeta').innerText = `Kategorie: ${video.tag} | Veröffentlicht am: ${this.formatDate(video.date)}`;
                 document.getElementById('detailDesc').innerText = video.description;
-                
                 document.getElementById('playerBg').style.backgroundImage = `url('${video.imageUrl}')`;
-                const titleParts = video.title.split(' ');
-                document.getElementById('playerBrand').innerText = titleParts[0].toUpperCase();
-                document.getElementById('playerSub').innerText = titleParts.slice(1).join(' ') || "Corporate Video";
 
-                window.scrollTo(0,0);
+                window.scrollTo(0, 0);
             },
 
             showList() {
                 document.getElementById('detailView').classList.add('hidden');
                 document.getElementById('listView').classList.remove('hidden');
-                document.getElementById('filterBar').classList.remove('hidden');
                 document.getElementById('mainHeader').classList.remove('hidden');
-                document.getElementById('videoIframe').src = "";
             },
 
-            formatDate(iso, full = false) {
-                const date = new Date(iso);
-                const options = full 
-                    ? { year: 'numeric', month: 'long', day: 'numeric' }
-                    : { year: 'numeric', month: 'short', day: 'numeric' };
-                return date.toLocaleDateString('de-DE', options);
+            formatDate(iso) {
+                return new Date(iso).toLocaleDateString('de-DE', {
+                    day: '2-digit', month: '2-digit', year: 'numeric'
+                });
             }
         };
 
